@@ -34,8 +34,8 @@ ident = [a-zA-Z]+ [a-zA-Z0-9]*
 ")"  { return Parser.RPAR; }
 
 /*crochets*/
-"["  { return Parser.LCRO;}
-"]"  {return Parser.RCRO;}
+"["  {  System.out.println("[");return Parser.LCRO; }
+"]"  {  System.out.println("]");return Parser.RCRO; }
 
 ";"  {return Parser.POINTV;}
 
@@ -53,6 +53,12 @@ ident = [a-zA-Z]+ [a-zA-Z0-9]*
 {nums}  { yyparser.yylval = new ParserVal(Integer.valueOf(yytext()));
          return Parser.NUM; }
 
-{ident} { yyparser.yylval = new ParserVal(yytext()); return Parser.IDENT;}
+{ident} { yyparser.yylval = new ParserVal(yytext());
+         return Parser.IDENT;}
 /* whitespace */
 [ \t]+ { }
+
+\b     { System.err.println("Sorry, backspace doesn't work"); }
+
+/* error fallback */
+[^]    { System.err.println("Error: unexpected character '"+yytext()+"'"); return -1; }
